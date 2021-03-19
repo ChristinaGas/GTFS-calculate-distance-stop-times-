@@ -4,24 +4,27 @@ from decimal import Decimal
 
 
 # function for reading files
-def read_gtfs_table(path_file, parse_coords=False):
+def read_gtfs_table(path_file, stops=False, shapes=False):
     with open(path_file, 'r', encoding="utf-8-sig") as table:
         csv_reader = csv.DictReader(table)
         table = list()
         for row in csv_reader:
-            if parse_coords:
+            if stops:
                 row['stop_lat'] = float(row['stop_lat'])
                 row['stop_lon'] = float(row['stop_lon'])
+
+            elif shapes:
+                row['shape_pt_lat'] = float(row['shape_pt_lat'])
+                row['shape_pt_lon'] = float(row['shape_pt_lon'])
             table.append(row)
         print('Finished reading table:', path_file)
         return table
 
-stops = ()
 
-stops = read_gtfs_table('C:/Users/Xristina/PycharmProjects/pythonProject/data/stops.txt', parse_coords=True)
-stop_times = read_gtfs_table('C:/Users/Xristina/PycharmProjects/pythonProject/data/stop_times.txt')
-shapes = read_gtfs_table('C:/Users/Xristina/PycharmProjects/pythonProject/data/shapes.txt', parse_coords=True)
-trips = read_gtfs_table('C:/Users/Xristina/PycharmProjects/pythonProject/data/trips.txt')
+stops = read_gtfs_table('E:/My_Code/GTFS-calculate-distance-stop_times/data/stops.txt', stops=True)
+stop_times = read_gtfs_table('E:/My_Code/GTFS-calculate-distance-stop_times/data/stop_times.txt')
+shapes = read_gtfs_table('E:/My_Code/GTFS-calculate-distance-stop_times/data/shapes.txt', shapes=True)
+trips = read_gtfs_table('E:/My_Code/GTFS-calculate-distance-stop_times/data/trips.txt')
 
 # for each point from stop times find the corresponding coordinates at stops
 # find the coordinates at shapes
