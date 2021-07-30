@@ -32,10 +32,11 @@ def read_gtfs_table(path_file, stops=False, shapes=False):
         return table
 
 # read files
-stops = read_gtfs_table('C:/Users/aetho/OneDrive - AETHON Engineering/Data/Δήμος Βάρης-Βούλας-Βουλιαγμένης/VVV_GTFS/stops.txt', stops=True)
-stop_times = read_gtfs_table('C:/Users/aetho/OneDrive - AETHON Engineering/Data/Δήμος Βάρης-Βούλας-Βουλιαγμένης/VVV_GTFS/stop_times.txt')
-shapes = read_gtfs_table('C:/Users/aetho/OneDrive - AETHON Engineering/Data/Δήμος Βάρης-Βούλας-Βουλιαγμένης/VVV_GTFS/shapes.txt', shapes=True)
-trips = read_gtfs_table('C:/Users/aetho/OneDrive - AETHON Engineering/Data/Δήμος Βάρης-Βούλας-Βουλιαγμένης/VVV_GTFS/tripsv.txt')
+script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
+stops = read_gtfs_table(script_dir + r'/data/stops.txt', stops=True)
+stop_times = read_gtfs_table(script_dir + r'/data/stop_times.txt')
+shapes = read_gtfs_table(script_dir + r'/data/shapes.txt', shapes=True)
+trips = read_gtfs_table(script_dir + r'/data/trips.txt')
 
 # first we find the first value of stop_sequence of each trip from stop_times
 first_stop_sequence_per_trip = []
@@ -95,7 +96,7 @@ for ii, stop_time in enumerate(stop_times):
                                 break
 # save the stop_times with the shape_dist_traveled field completed
 keys = stop_times[0].keys()
-with open(os.getcwd() + r'/results/stop_times_vvv.csv', 'w', encoding="utf-8-sig", newline='') as output_file:
+with open(os.getcwd() + r'/results/stop_times.csv', 'w', encoding="utf-8-sig", newline='') as output_file:
     dict_writer = csv.DictWriter(output_file, keys)
     dict_writer.writeheader()
     dict_writer.writerows(stop_times)
